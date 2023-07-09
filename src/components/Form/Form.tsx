@@ -1,10 +1,12 @@
-import React, { useState, FormEvent } from "react";
+import React, { useState, useContext, FormEvent } from "react";
+import { ThemeContext, ThemeContextType } from '../../App';
 
 interface FormProps {
   onSubmitEvent: (username: string) => void;
 }
 
 const Form = ({ onSubmitEvent }: FormProps) => {
+  const { theme, setTheme } = useContext(ThemeContext) as ThemeContextType;
   const [username, setUsername] = useState("");
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
@@ -25,6 +27,16 @@ const Form = ({ onSubmitEvent }: FormProps) => {
         placeholder="GitHub username"
         required
       />
+      <label>
+        <input
+          type="checkbox"
+          checked={theme === 'dark'}
+          onChange={(e) => {
+            setTheme(e.target.checked ? 'dark' : 'light')
+          }}
+        />
+        Use dark mode
+      </label>
       <button type="submit">Add card</button>
     </form>
   );

@@ -1,5 +1,6 @@
-import React from 'react';
-import './Card.css';
+import React, { useContext } from 'react';
+import { ThemeContext, ThemeContextType } from '../../App';
+import './style.css';
 
 interface CardProps {
   avatar_url: string
@@ -8,8 +9,9 @@ interface CardProps {
 }
 
 const Card = (props: CardProps) => {
+  const { theme } = useContext(ThemeContext) as ThemeContextType;
   return (
-    <div className='card'>
+    <div className={`card ${theme}`}>
       <img src={props.avatar_url} alt={props.name.concat('-avatar')} />
       <div>
         <div style={{ fontWeight: 'bold' }}>{props.name}</div>

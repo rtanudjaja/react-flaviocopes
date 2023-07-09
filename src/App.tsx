@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import axios, { AxiosResponse } from 'axios';
+import { createContext } from 'react';
 import Form from './components/Form';
 import Card from './components/Card';
-import './style.css';
+import './App.css';
 
 interface User {
   avatar_url: string
@@ -16,7 +17,15 @@ interface Response {
   blog: string
 }
 
+export type ThemeContextType = {
+  theme: string;
+  setTheme: (theme: string) => void;
+};
+
+export const ThemeContext = createContext<ThemeContextType  | null>(null);
+
 function App() {
+  const [theme, setTheme] = useState('light');
   const [users, setUsers] = useState<Array<User>>([]);
 
   const fetchGithubUsers = (username: string) => {
@@ -33,12 +42,12 @@ function App() {
     }
   }
   return (
-    <div>
+    <ThemeContext.Provider value={{ theme, setTheme }}>
       <Form onSubmitEvent={fetchGithubUsers}/>
       {users.length > 0 && users.map((user) => (
         <Card key={user.name} {...user} />
       ))}
-    </div>
+    </ThemeContext.Provider>
   );
 }
 
