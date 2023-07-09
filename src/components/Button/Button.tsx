@@ -1,4 +1,5 @@
 import React from 'react'
+import styled from 'styled-components'
 
 interface ButtonProps {
   increment: number
@@ -9,9 +10,23 @@ const Button = ({ increment, add }: ButtonProps) => {
   const handleClick = () => {
     add(increment)
   }
+  if(increment === 0) {
+    return (
+      <ErrorButton onClick={handleClick}>+{ increment }</ErrorButton>
+    )
+  }
   return (
-    <button onClick={handleClick}>+{ increment }</button>
+    <StyledButton onClick={handleClick}>+{ increment }</StyledButton>
   )
 }
+
+const StyledButton = styled.button<{ primary?: string }>`
+  background: ${props => (props.primary ? 'black' : 'white')};
+  color: ${props => (props.primary ? 'white' : 'black')};
+`
+
+const ErrorButton = styled(StyledButton)`
+  color: yellow;
+`
 
 export default Button
